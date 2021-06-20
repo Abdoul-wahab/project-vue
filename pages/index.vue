@@ -1,27 +1,46 @@
 <template>
-  <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-  
-        <div v-for="artist in artists" :key="artist.id" class="py-3 sm:max-w-xl m-10 sm:mx-auto">
-            <div class="bg-white shadow-lg border-gray-100 max-h-80	 border sm:rounded-3xl p-8 flex space-x-8">
-            <div class="h-48 overflow-visible w-1/2">
-                <img class="rounded-3xl shadow-lg" :src="artist.avatar" alt="">
-            </div>
-            <div class="flex flex-col w-1/2 space-y-4">
-                <div class="flex justify-between items-start">
-                <h2 class="text-3xl font-bold">{{ artist.name }}</h2>
-                <div class="bg-yellow-400 font-bold rounded-xl p-2">{{ artist.likes }}</div>
-                </div>
-                <div>
-                <div class="text-sm text-gray-400">{{ fetchArtistGenre(artist.genreId) }}</div>
-                <div class="text-lg text-gray-800">2019</div>
-                </div>
-                <p class=" text-gray-400 max-h-40 overflow-auto">{{artist.description}}</p>
-            </div>
+  <div class="grid place-items-center min-h-screen bg-gradient-to-t from-blue-200 to-indigo-900 p-5 rounded-xl">
+    <div>
+      <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mb-5">Albums</h1>
 
-            </div>
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+        <div v-for="album in albums" :key="album.id" class="bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">{{album.name }}</h4>
+          <div class="mt-1">
+            {{album.tracks }}
+            <span class="text-gray-600 text-sm">titres</span>
+          </div>
+          <div class="mt-4">
+            <span class="text-teal-600 text-md font-semibold">Année : </span>
+            <span class="text-sm text-gray-600">{{album.released }}</span>
+          </div>  
         </div>
-    
+
+      </section>
     </div>
+
+    <div>
+      <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mb-5">News</h1>
+
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+        <div v-for="item in news" :key="item.id" class="bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">{{item.title }}</h4>
+          <div class="mt-1">
+            <span class="text-gray-600 text-sm">{{item.published }}</span>
+          </div>
+          <div class="mt-4">
+            <span class="text-sm text-gray-600">{{item.content}}</span>
+          </div>  
+        </div>
+
+      </section>
+      
+
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -29,19 +48,19 @@ export default {
   layout: 'default',
   data() {
     return {
-         artists: [],
-         genres: [],
+         albums: [],
+         news: [],
     }
   },
   created() {
-    this.fetchArtists()
-    this.fetchGenres()
+    this.getAlbums()
+    this.fetchNews()
   },
   methods: {
-    fetchArtists() {
-      this.$axios.$get(`/artists`)
+    getAlbums() {
+      this.$axios.$get(`/albums`)
       .then(response => {
-        this.artists = response
+        this.albums = response
         console.log(response)
       })
       .catch( error => {
@@ -49,18 +68,14 @@ export default {
       })
     },
 
-    fetchGenres() {
-      this.$axios.$get('/genres')
+    fetchNews() {
+      this.$axios.$get('/news')
       .then(response => {
-        this.genres = response
+        this.news = response
       })
       .catch( error => {
         console.log(error)
       })
-    },
-
-    fetchArtistGenre(id) {
-      return this.genres[id] ? this.genres[id].name : 'music'
     }
 
    }
