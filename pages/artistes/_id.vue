@@ -16,7 +16,7 @@
           <div class="text-lg text-gray-800">{{artist.origin ? artist.origin : artist.country}}</div>
           </div>
           <p class=" text-gray-400 max-h-40 overflow-auto">{{artist.description}}</p>
-          <button class="focus:outline-none inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-700 transition-colors duration-150 bg-gray-100 rounded-full hover:bg-gray-300">
+          <button @click="showModal(artist)" class="focus:outline-none inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-700 transition-colors duration-150 bg-gray-100 rounded-full hover:bg-gray-300">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
           </button>
       </div>
@@ -42,7 +42,7 @@
       <div class="p-3 w-full">{{album.released }}</div>
       <div class="p-3 w-full">{{album.tracks }}</div>
       <div class="p-3 w-12">
-        <button class="focus:outline-none inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-700 transition-colors duration-150 bg-white rounded-full hover:bg-gray-200">
+        <button @click="showAlbum(album)" class="focus:outline-none inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-700 transition-colors duration-150 bg-white rounded-full hover:bg-gray-200">
           <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
         </button>
       </div>
@@ -64,7 +64,7 @@
       <div class="p-3 w-full">{{ concert.name }}</div>
       <div class="p-3 w-full">{{ concert.date }}</div>
       <div class="p-3 w-12">
-        <button class="focus:outline-none inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-700 transition-colors duration-150 bg-white rounded-full hover:bg-gray-200">
+        <button @click="showConcert(concert)" class="focus:outline-none inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-700 transition-colors duration-150 bg-white rounded-full hover:bg-gray-200">
           <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
         </button>
       </div>
@@ -75,19 +75,23 @@
 </template>
 
 <script>
-import modal from '@/components/modals/modal.vue'
+import artistModal from '@/components/modals/artist.vue'
+import albumModal from '@/components/modals/album.vue'
+import concertModal from '@/components/modals/concert.vue'
 
 export default {
   name: 'Artiste',
   components: {
-    modal,
+    artistModal,
+    albumModal,
+    concertModal
   },
   data() {
     return {
-         artist: [],
-         genre: [],
-         albums: [],
-         concerts: []
+      artist: [],
+      genre: [],
+      albums: [],
+      concerts: []
     }
   },
   created() {
@@ -136,7 +140,49 @@ export default {
       .catch( error => {
         console.log(error)
       })
-    }
+    },
+
+    showModal (artist) {
+      this.$modal.show(
+          artistModal,
+          {artist},
+          {
+            width: 500,
+            height: 430
+          },
+          { draggable: true },
+          // eslint-disable-next-line no-unused-vars
+          { 'before-close': event => { this.fetchArtist() } }
+      )
+    },
+
+    showAlbum (album) {
+      this.$modal.show(
+        albumModal,
+        {album},
+        {
+          width: 500,
+          height: 360
+        },
+        { draggable: true },
+        // eslint-disable-next-line no-unused-vars
+        { 'before-close': event => { this.getAlbums() } }
+      )
+    },
+
+    showConcert (concert) {
+        this.$modal.show(
+          concertModal,
+          {concert},
+          {
+            width: 500,
+            height: 340
+          },
+          { draggable: true },
+          // eslint-disable-next-line no-unused-vars
+          { 'before-close': event => { this.getConcerts() } }
+        )
+    },
 
    }
 }
