@@ -40,16 +40,33 @@ export default {
     // https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     // https://auth.nuxtjs.org
-    '@nuxtjs/auth-next',
+    '@nuxtjs/auth'
   ],
 
   axios: {
     credentials: true,
-    baseURL: 'http://localhost:3000',
+    baseURL:  process.env.API_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vee-validate/dist/rules']
-  }
+  },
+
+  // Auth module configuration (https://auth.nuxtjs.org)
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {url: '/login', method: 'post', propertyName: 'accessToken' },
+          user: {url: '/600/users', method: 'get', propertyName: false },
+          logout: false,
+        }
+      }
+    },
+    // plugins: [
+    //   '~/plugins/auth',
+    // ]
+  },
+
 }

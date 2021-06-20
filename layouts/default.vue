@@ -56,7 +56,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="hidden md:block">
+                <div v-if="$auth.loggedIn" class="hidden md:block">
                   <div class="ml-4 flex items-center md:ml-6">
 
                     <div class="ml-3 relative">
@@ -78,13 +78,13 @@
                         role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
 
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem">Your Profile</a>
+                        role="menuitem">Profile</a>
 
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem">Settings</a>
+                        role="menuitem">Réglage</a>
 
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem">Sign out</a>
+                        role="menuitem">Déconnexion</a>
 
                     </div>
 
@@ -118,6 +118,10 @@ export default {
     return {
          open: false,
     }
+  },
+
+  mounted () {
+    console.log(this.$auth.loggedIn)
   },
 
   methods: {
