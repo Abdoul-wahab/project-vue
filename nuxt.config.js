@@ -59,7 +59,7 @@ export default {
       local: {
         endpoints: {
           login: {url: '/login', method: 'post', propertyName: 'accessToken' },
-          user: {url: '/600/users', method: 'get', propertyName: false },
+          user: {url: '', method: 'get', propertyName: false },
           logout: false,
         }
       }

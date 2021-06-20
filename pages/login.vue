@@ -54,11 +54,26 @@ export default {
   },
   methods: {
       login() {
-          console.log(this.form)
-          this.$auth.loginWith('local', { data: this.form })
-          .then(() => this.$router.push({path: '/'}))
-          .catch( error => { this.api_errors = error.response ? error.response.data : '' } )
-      }
+        console.log(this.form)
+        this.$auth.loginWith('local', { data: this.form })
+        .then(response => {
+            const { accessToken } = response.data
+            const { sub } = jwt_decode(accessToken)
+            this.loggedUser(sub)
+        //   localStorage.setItem('access_token', accessToken)
+        //   localStorage.setItem('user_id', sub)
+        
+            this.$router.push({path: '/'})
+        })
+        .catch( error => { this.api_errors = error.response ? error.response.data : '' } )
+      },
+
+      loggedUser(id) {
+        console.log(this.form)
+        this.$axios.$get(`/users/` + id)
+        .then( response => this.$auth.setUser(response) )
+        .catch( error => { this.api_errors = error.response ? error.response.data : '' } )
+    }
   }
 }
 </script>
