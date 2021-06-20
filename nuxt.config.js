@@ -21,7 +21,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/vee-validate.js'
+    '~/plugins/vee-validate.js',
+    '~plugins/vue-js-modal.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,18 +56,24 @@ export default {
 
   // Auth module configuration (https://auth.nuxtjs.org)
   auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+    },
     strategies: {
       local: {
         endpoints: {
           login: {url: '/login', method: 'post', propertyName: 'accessToken' },
-          user: {url: '', method: 'get', propertyName: false },
+          user: false,
           logout: false,
         }
       }
     },
-    // plugins: [
-    //   '~/plugins/auth',
-    // ]
+    plugins: [
+      '~/plugins/auth',
+    ]
   },
 
 }

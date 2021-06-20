@@ -102,7 +102,19 @@ export default {
     register() {
         console.log(this.form)
         this.$axios.$post(`/register`, this.form)
-        .then( () => this.$router.push({path: '/'}) )
+        .then(response => {
+            const { accessToken } = response.data
+            const { sub } = jwt_decode(accessToken)
+            this.loggedUser(sub)
+            this.$router.push({path: '/'})
+        })
+        .catch( error => { this.api_errors = error.response ? error.response.data : '' } )
+    },
+
+    loggedUser(id) {
+        console.log(this.form)
+        this.$axios.$get(`/users/` + id)
+        .then( response => this.$auth.setUser(response) )
         .catch( error => { this.api_errors = error.response ? error.response.data : '' } )
     }
   }
@@ -110,12 +122,9 @@ export default {
 </script>
 
 <style>
-  .login{
-  
-  background: url('https://research.fb.com/wp-content/uploads/2018/05/music-hero2.jpg');
- 
-  /* background: url('http://bit.ly/2gPLxZ4'); */
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+    .login{
+        background: url('https://research.fb.com/wp-content/uploads/2018/05/music-hero2.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
