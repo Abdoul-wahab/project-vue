@@ -160,6 +160,34 @@
       "released": 2018,
       "tracks": 13,
       "artistId": 2
+    },
+    {
+      "id": 3,
+      "name": "Ipseité",
+      "released": 2017,
+      "tracks": 15,
+      "artistId": 3
+    },
+    {
+      "id": 4,
+      "name": "Ulta",
+      "released": 2021,
+      "tracks": 13,
+      "artistId": 2
+    },
+    {
+      "id": 5,
+      "name": "QALF",
+      "released": 2020,
+      "tracks": 15,
+      "artistId": 3
+    },
+    {
+      "id": 6,
+      "name": "TOTO",
+      "released": 2021,
+      "tracks": 13,
+      "artistId": 2
     }
   ],
   "concerts": [
